@@ -1,6 +1,6 @@
 import { Logs } from "expo";
 import React, { Component } from "react";
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Content from "../common/content";
@@ -14,8 +14,11 @@ export default class Home extends Component {
 		super(props);
 		this.child = React.createRef();
 		this.scrollRef = React.createRef();
+		this.setState({})
 	}
 	
+
+
 	MainHome = () => {
 		const navigation = useNavigation();
 		
@@ -30,10 +33,11 @@ export default class Home extends Component {
 	}
 
 	ProfilePage = () => {
+		const navigation = useNavigation();
 		const route = useRoute();
 		return (
 			<View>
-				<Profile route={route} />
+				<Profile route={route} navigation={navigation} />
 			</View>
 		);
 	}

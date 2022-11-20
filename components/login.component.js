@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View, Button, Text, TextInput } from "react-native";
+import { View, Button, Text, TextInput, StyleSheet } from "react-native";
+import { Toast } from "toastify-react-native";
 
 
 import AuthService from "../services/auth.service";
@@ -47,6 +48,9 @@ export default class Login extends Component {
             successful: false
         });
         console.log("Login Press");
+        if(this.state.username == "" || this.state.password == ""){
+            return Toast.error("Please fill in all fields");
+        }
         AuthService.login(
             this.state.username,
             this.state.password
@@ -75,17 +79,18 @@ export default class Login extends Component {
 
     render() {
         return (
-            <View>
-                <Text>Register</Text>
+            <View style={{margin:30}}>
                 {!this.state.successful && (
                     <View>
                         <Text>Username</Text>
                         <TextInput
+                            style={styles.input}
                             value={this.state.username}
                             onChangeText={this.onChangeUsername}
                         />
                         <Text>Password</Text>
                         <TextInput
+                            style={styles.input}
                             value={this.state.password}
                             onChangeText={this.onChangePassword}
                             secureTextEntry={true}
@@ -111,3 +116,12 @@ export default class Login extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+    },
+});

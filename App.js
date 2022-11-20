@@ -5,9 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Register from './components/register.component';
 import Login from './components/login.component';
 import Home from './components/home.component';
-import Profile from './components/profile.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
 export default function App() {
 
   const [loginState, setLoginState] = useState(false);
@@ -34,9 +32,7 @@ export default function App() {
       component={Home}
       initialParams={{ visibilityView: "Public" }}
       
-      // listeners={{
-      //   tabPress: e => {setData([]), setMode('cityname'); },
-      // }}
+      
       options={{
 
         headerShown: false,
@@ -49,9 +45,6 @@ export default function App() {
       name="Follow"
       component={Home}
       initialParams={{ visibilityView: "Follow" }}
-      // listeners={{
-      //   tabPress: (e) => { setData([]), setMode('latlong'); },
-      // }}
       options={{
         tabBarLabel: 'Following',
         tabBarIcon: ({ color }) => (

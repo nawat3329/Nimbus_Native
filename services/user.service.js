@@ -1,6 +1,5 @@
 import axios from 'axios';
 import authHeader from './auth-header';
-import { toast } from 'toastify-react-native';
 
 const API_URL = process.env.REACT_APP_ROOT_URL + process.env.REACT_APP_CONTENT_API_URL;
 
@@ -18,19 +17,19 @@ class UserService {
     }
 
     async publishPost(text, visibility, image) {
-        var response;
         console.log(text);
         console.log(visibility);
         console.log(image);
         if(image){
             const formData = new FormData();
-            formData.append('image', image);
+            formData.append('image', {
+                uri: image.uri,
+                type: image.type,
+                name: "image.jpg",
+            });
             formData.append('text', text);
             formData.append('visibility', visibility);
-            for (var pair of formData.entries()) {
-                console.log(pair[0]+ ': ' + pair[1]); 
-            }
-            return await axios.post(API_URL + "insertpostimage", formData, { headers: {...authHeader(), 'Content-Type': 'multipart/form-data'} });
+            return await axios.post(API_URL + "insertpostimage", formData, { headers: { ...await authHeader(), 'Content-Type': 'multipart/form-data'} });
         }
         else{
             return await axios.post(API_URL + "insertpost", { text, visibility}, { headers: await authHeader() });

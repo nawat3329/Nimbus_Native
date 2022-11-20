@@ -66,12 +66,12 @@ export default function PostResponse(props) {
     }
 
     return (
-        <View key={response._id} >
+        <View key={response._id}  style={{margin:10, backgroundColor:"#f8f9fa"}}>
             <TouchableOpacity style={{ fontSize: 20, color: "black", textDecoration: 'none' }}
                 onPress={() => props.navigation.navigate("Profile", { userID: response.author })} >
-                <Text>{response?.username}</Text>
+                <Text style={{fontSize:30}}>{response?.username}</Text>
             </TouchableOpacity >
-            <Text>{response?.text}</Text>
+            <Text style={{fontSize:20}}>{response?.text}</Text>
 
             {response.post_images ? <Image source={{ uri: response.post_images }} style={{ width: "100%", height: 200, resizeMode: 'contain' }} /> : null}
             <View>

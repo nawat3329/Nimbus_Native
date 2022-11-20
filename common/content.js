@@ -130,11 +130,12 @@ export default class Content extends Component {
 
 	pageButton = () => {
 		return (
-			<View>
+			<View style={{ flexDirection:"row", justifyContent:"space-around"}}>
 				<Button
 					disabled={this.state.page <= 1}
 					onPress={() => this.changePage(-1)}
-					title="Pervious Page"
+					title="Previous Page"
+					
 				/>
 					
 				<Button
@@ -145,9 +146,12 @@ export default class Content extends Component {
 		)
 	}
 
+	
+
 	render() {
 		return (
-			<View>
+			<View >
+				<Button title="Refresh" onPress={this.fetchContent}/>
 				{this.state.content}
 				<this.pageButton />
 			</View>

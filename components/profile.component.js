@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { Navigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
-import { toast } from 'react-toastify';
-import { withRouter } from '../common/with-router';
 import Content from "../common/content";
 import UserService from "../services/user.service";
-import Button from 'react-bootstrap/Button';
-class Profile extends Component {
+
+import { View, Button, Text, ScrollView } from "react-native";
+export default class OthersProfile extends Component {
     constructor(props) {
         super(props);
 
@@ -21,11 +19,11 @@ class Profile extends Component {
     componentDidMount() {
         const currentUser = AuthService.getCurrentUser();
         if (!currentUser) this.setState({ redirect: "/home" });
-        this.setState({ currentUser: currentUser, userReady: true }, () => {this.getUserDetail()});
+        this.setState({ currentUser: currentUser, userReady: true }, () => this.getUserDetail());
     }
 
     getUserDetail = () => {
-        UserService.getSelfProfileContent().then(
+        UserService.getProfileDetail(this.props.route.params.userID).then(
             (response) => {
                 console.log(response.data)
                 this.setState({
@@ -34,50 +32,68 @@ class Profile extends Component {
                 console.log(this.state.userProfile)
             },
             (error) => {
-                this.setState({
-                    content:
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString(),
-                });
+                console.log(error);
             }
         );
     }
-    selfProfile = () => {
-        const { currentUser } = this.state;
+
+    othersProfile = () => {
         return (
-            <div>
-                <header className="jumbotron">
-                    <p>left Profile picture here</p>
-                    <h3>
-                        <strong>{currentUser.username}</strong> Profile
-                    </h3>
-                </header>
-                <Button> Setting </Button>
-                <Button> Edit Profile </Button>
+        <View >
+            <View>
+                <Text>{this.state.userProfile.username}</Text>
+            </View>
+            {(!this.state.userProfile.follow) ?
+                <Button
+                onPress={() => this.pressFollow()}
+                title="Follow"
+                />
+                :
+                <Button
+                onPress={() => this.pressUnfollow()}
+                title="Unfollow"
+                />
+            }
 
+        </View>)
+    }
 
-            </div>)
+    pressFollow = () => {
+        UserService.follow(this.state.userProfile._id).then(
+            (response) => {
+                console.log(response.data)
+                this.getUserDetail();
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
+    }
+
+    pressUnfollow = () => {
+        UserService.unfollow(this.state.userProfile._id).then(
+            (response) => {
+                console.log(response.data)
+                this.getUserDetail();
+            },
+            (error) => {
+                console.log(error);
+            }
+        );
     }
 
     render() {
-        if (this.state.redirect) {
-            toast.error("You need to login to view that page")
-            return <Navigate to={this.state.redirect} />
-        }
-
-
 
         return (
-            <div className="container">
+            <ScrollView>
                 {(this.state.userReady) ?
-                    <div>
-                        {this.selfProfile()}
-                        <Content pageType="profile" />
-                    </div>
+                    <View>
+                        {this.othersProfile()}
+                        <Content pageType="profile" profile_userID={this.props.route.params.userID} />
+                    </View>
                     : null}
-            </div>
+            </ScrollView>
         );
     }
 }
-export default withRouter(Profile);
+

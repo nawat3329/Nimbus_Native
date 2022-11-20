@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, TextInput, Button } from 'react-native';
+import {Toast} from 'toastify-react-native'
 
 
 import AuthService from "../services/auth.service";
@@ -18,7 +19,7 @@ export default class Home extends Component {
 
     publishPost = () => {
         if (this.state.textInput.length === 0) {
-            toast.error("Please enter text");
+            Toast.error("Please enter text");
             return;
         }
         UserService.publishPost(this.state.textInput, this.state.visibilityInput, this.state.selectedImage).then(
@@ -42,8 +43,8 @@ export default class Home extends Component {
     publishPostMenu = () => {
         return (
             <View >
-                <TextInput placeholder="Write Something!" value={this.state.textInput} onChangeText={(event) => this.setState({ textInput: event.target.value })} />
-                <Button variant="outline-secondary" onClick={this.checkLogin} title="Publish" />
+                <TextInput placeholder="Write Something!" value={this.state.textInput} onChangeText={(event) => this.setState({ textInput: event })} />
+                <Button variant="outline-secondary" onPress={this.publishPost} title="Publish" />
             </View>
         )
     }

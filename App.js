@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Register from './components/register.component';
 import Login from './components/login.component';
 import Home from './components/home.component';
+import Profile from './components/profile.component';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function App() {
@@ -13,6 +14,9 @@ export default function App() {
 
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
+  
+  
+  
   return (
     (!loginState) ? (
     <Stack.Navigator initialRouteName="Login">
@@ -28,39 +32,30 @@ export default function App() {
     <Tab.Screen
       name="Home"
       component={Home}
-      listeners={{
-        tabPress: e => {setData([]), setMode('cityname'); },
-      }}
+      initialParams={{ visibilityView: "Public" }}
+      
+      // listeners={{
+      //   tabPress: e => {setData([]), setMode('cityname'); },
+      // }}
       options={{
-        tabBarLabel: 'City',
+
+        headerShown: false,
         tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="city" color={color} size={26} />
+          <MaterialCommunityIcons name="home" color={color} size={26} />
         ),
       }}
     />
     <Tab.Screen
       name="Follow"
-      component={Login}
-      listeners={{
-        tabPress: (e) => { setData([]), setMode('latlong'); },
-      }}
+      component={Home}
+      initialParams={{ visibilityView: "Follow" }}
+      // listeners={{
+      //   tabPress: (e) => { setData([]), setMode('latlong'); },
+      // }}
       options={{
-        tabBarLabel: 'LatLong',
+        tabBarLabel: 'Following',
         tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="cellphone-marker" color={color} size={26} />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="Profile"
-      component={Login}
-      listeners={{
-        tabPress: (e) => { setData([]), setMode('latlong'); },
-      }}
-      options={{
-        tabBarLabel: 'Profile',
-        tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="cellphone-marker" color={color} size={26} />
+          <MaterialCommunityIcons name="account-group" color={color} size={26} />
         ),
       }}
     />

@@ -33,7 +33,8 @@ class AuthService {
     }
 
     async getCurrentUser() {
-        return await JSON.parse(SecureStore.getItemAsync('user'));
+        return JSON.parse(await SecureStore.getItemAsync('user'))
+
     }
 }
 

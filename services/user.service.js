@@ -9,16 +9,12 @@ class UserService {
         return axios.get(API_URL + 'all');
     }
 
-    getUserBoard() {
-        return axios.get(API_URL + 'user', { headers: authHeader() });
-    }
-
     async getHomeContent(page, userId) {
         return await axios.get(API_URL + "home", { params: { page, userId } });
     }
 
     async getHomeFollowContent(page) {
-        return await axios.get(API_URL + "homefollow", { params: { page }, headers: authHeader() });
+        return await axios.get(API_URL + "homefollow", { params: { page }, headers: await authHeader() });
     }
 
     async publishPost(text, visibility, image) {
@@ -34,28 +30,19 @@ class UserService {
             for (var pair of formData.entries()) {
                 console.log(pair[0]+ ': ' + pair[1]); 
             }
-            response =  axios.post(API_URL + "insertpostimage", formData, { headers: {...authHeader(), 'Content-Type': 'multipart/form-data'} });
+            return await axios.post(API_URL + "insertpostimage", formData, { headers: {...authHeader(), 'Content-Type': 'multipart/form-data'} });
         }
         else{
-            response = (axios.post(API_URL + "insertpost", { text, visibility}, { headers: authHeader() }));
+            return await axios.post(API_URL + "insertpost", { text, visibility}, { headers: await authHeader() });
         }
-        toast.promise(
-            response,
-            {
-                pending: 'Publishing your post',
-                success: 'Your post successfully publish 👌',
-                error: "Something went wrong (Not image or too large)"
-            }
-        )
-        return response
     }
 
     async getProfileContent(page, profile_userID){
-        return await axios.get(API_URL + "getProfileContent", { params: { page, profile_userID } , headers: authHeader() });
+        return await axios.get(API_URL + "getProfileContent", { params: { page, profile_userID } , headers: await authHeader() });
     }
 
     async getProfileDetail(profile_userID){
-        return await axios.get(API_URL + "getProfileDetail", { params: { profile_userID } , headers: authHeader() });
+        return await axios.get(API_URL + "getProfileDetail", { params: { profile_userID } , headers: await authHeader() });
     }
 
     async getpostdetail(postId){
@@ -63,30 +50,13 @@ class UserService {
     }
 
     async follow(profile_userID) {
-        const response = (axios.post(API_URL + "follow", { profile_userID }, { headers: authHeader() }));
-        toast.promise(
-            response,
-            {
-                pending: 'Following',
-                success: 'Follow successfully! 👌',
-                error: 'Something went wrong 🤯'
-            }
-        )
-        return response
+        return await axios.post(API_URL + "follow", { profile_userID }, { headers: await authHeader() });
+        
     }
 
     async unfollow(profile_userID) {
         console.log(profile_userID)
-        const response = (axios.post(API_URL + "unfollow", { profile_userID }, { headers: authHeader() }));
-        toast.promise(
-            response,
-            {
-                pending: 'Unfollowing',
-                success: 'Unfollow successfully! 👌',
-                error: 'Something went wrong 🤯'
-            }
-        )
-        return response
+        return await  axios.post(API_URL + "unfollow", { profile_userID }, { headers: await authHeader() });
     }
 
     async getSelfProfileContent(page){
@@ -95,98 +65,18 @@ class UserService {
 
     async like(postId){
         console.log(postId)
-        const response = (axios.post(API_URL + "like", { postId }, { headers: authHeader() }));
-        toast.promise(
-            response,
-            {
-                pending: 'Liking',
-                success: 'Liked Succesfully! 👌',
-                error: 'Something went wrong 🤯'
-            }
-        )
-        return response
+        return await (axios.post(API_URL + "like", { postId }, { headers: await authHeader() }));
     }
 
     async unlike(postId){
         console.log(postId)
-        const response = (axios.post(API_URL + "unlike", { postId }, { headers: authHeader() }));
-        toast.promise(
-            response,
-            {
-                pending: 'Unliking',
-                success: 'Unliked Succesfully! 👌',
-                error: 'Something went wrong 🤯'
-            }
-        )
-        return response
-    }
-    async addcomment(postId, commenttext){
-        console.log(postId)
-        const response = (axios.post(API_URL + "addcomment", { postId, commenttext }, { headers: authHeader() }));
-        toast.promise(
-            response,
-            {
-                pending: 'Adding comment',
-                success: 'Comment added Succesfully! 👌',
-                error: 'Something went wrong 🤯'
-            }
-        )
-        return response
+        return await (axios.post(API_URL + "unlike", { postId }, { headers: await authHeader() }));
+
     }
 
     async deletepost(postId){
-        const response = (axios.post(API_URL + "deletepost", { postId}, { headers: authHeader() }));
-        toast.promise(
-            response,
-            {
-                pending: 'deleting post',
-                success: 'Post deleted Succesfully! 👌',
-                error: 'Something went wrong 🤯'
-            }
-        )
-        return response
-    }
+        return await (axios.post(API_URL + "deletepost", { postId}, { headers: await authHeader() }));
 
-    async editpost(postId, text, visibility){
-        const response = (axios.post(API_URL + "editpost", { postId, text, visibility}, { headers: authHeader() }));
-        toast.promise(
-            response,
-            {
-                pending: 'editing post',
-                success: 'Post edited Succesfully! 👌',
-                error: 'Something went wrong 🤯'
-            }
-        )
-        return response
-    }
-
-    async getPostComment(postId){
-        return await axios.get(API_URL + "getPostComment", { params: {postId} , headers: authHeader() });
-    }
-
-    async deletecomment(postId, commentId){
-        const response = (axios.post(API_URL + "deletecomment", { postId, commentId}, { headers: authHeader() }));
-        toast.promise(
-            response,
-            {
-                pending: 'deleting comment',
-                success: 'Comment deleted Succesfully! 👌',
-                error: 'Something went wrong 🤯'
-            }
-        )
-        return response
-    }
-    async searchUser(username){
-        const response = (axios.post(API_URL + "searchuser", {username} ,{ headers: authHeader() }));
-        toast.promise(
-            response,
-            {
-                pending: 'searching user',
-                success: 'Found user! 👌',
-                error: 'User not found !'
-            }
-        )
-        return response
     }
 }
 

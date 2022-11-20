@@ -16,12 +16,14 @@ export default class Content extends Component {
 	}
 
 	componentDidMount() {
-		this.fetchContent();
+		const currentUser =  AuthService.getCurrentUser();
+		this.setState({userID: currentUser.id}, () => {this.fetchContent()}) ;
 	}
 
 	fetchContent = () => {
 		console.log(this.props.pageType)
 		console.log(this.state.totalPage);
+		console.log(this.state.page);
 		if (this.props.pageType === "home") {
 			if (this.props.visibilityView === "Public") {
 				UserService.getHomeContent(this.state.page, this.state.userID).then(
@@ -30,6 +32,7 @@ export default class Content extends Component {
 							totalPage: response.data.totalPage
 						})
 						this.insertResponse(response.data.postRes)
+						this.props.pass.current.scrollTo({x: 0, y: 0, animated: true})
 					},
 					(error) => {
 						this.setState({
@@ -48,6 +51,7 @@ export default class Content extends Component {
 							totalPage: response.data.totalPage
 						})
 						this.insertResponse(response.data.postRes)
+						this.props.pass.current.scrollTo({x: 0, y: 0, animated: true})
 					},
 					(error) => {
 						this.setState({
@@ -108,7 +112,7 @@ export default class Content extends Component {
 		const rows = [];
 		for (let i = 0; i < response.length; i++) {
 			rows.push(
-				<PostResponse key={response[i]._id} response={response[i]} fetchContent={this.fetchContent} />
+				<PostResponse key={response[i]._id} response={response[i]} fetchContent={this.fetchContent} navigation={this.props.navigation}/>
 			);
 		}
 		console.log(rows)
@@ -129,13 +133,13 @@ export default class Content extends Component {
 			<View>
 				<Button
 					disabled={this.state.page <= 1}
-					onClick={() => this.changePage(-1)}
+					onPress={() => this.changePage(-1)}
 					title="Pervious Page"
 				/>
 					
 				<Button
 					disabled={this.state.page >= this.state.totalPage}
-					onClick={() => this.changePage(1)}
+					onPress={() => this.changePage(1)}
 					title="Next Page" />
 			</View>
 		)

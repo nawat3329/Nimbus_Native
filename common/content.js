@@ -15,8 +15,8 @@ export default class Content extends Component {
 		};
 	}
 
-	componentDidMount() {
-		const currentUser =  AuthService.getCurrentUser();
+	async componentDidMount() {
+		const currentUser =  await AuthService.getCurrentUser();
 		this.setState({userID: currentUser.id}, () => {this.fetchContent()}) ;
 	}
 

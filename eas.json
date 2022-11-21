@@ -1,0 +1,27 @@
+{
+  "cli": {
+    "version": ">= 2.7.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "REACT_APP_ROOT_URL": "https://api.dinotek.cc",
+        "REACT_APP_AUTH_API_UR": "/api/auth/",
+        "REACT_APP_CONTENT_API_URL": "/api/content/"
+    }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

@@ -73,7 +73,7 @@ export default function PostResponse(props) {
             </TouchableOpacity >
             <Text style={{fontSize:20}}>{response?.text}</Text>
 
-            {response.post_images ? <Image source={{ uri: response.post_images }} style={{ width: "100%", height: 200, resizeMode: 'contain' }} /> : null}
+            {response.post_images ? <Image source={{ uri: response.post_images }} style={{ width: "100%", height: 400, resizeMode: 'contain' }} /> : null}
             <View>
                 <View className="d-flex flex-row">
                     <View>

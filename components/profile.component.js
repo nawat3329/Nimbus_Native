@@ -41,7 +41,7 @@ export default class Profile extends Component {
         return (
         <View >
             <View>
-                <Text>{this.state.userProfile.username}</Text>
+                <Text style={{fontSize:30, fontWeight:"bold"}}>{this.state.userProfile.username}</Text>
             </View>
             {(!this.state.userProfile.follow) ?
                 <Button

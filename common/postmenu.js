@@ -27,8 +27,9 @@ export default class Home extends Component {
         UserService.publishPost(this.state.textInput, this.state.visibilityInput, this.state.selectedImage).then(
             (response) => {
                 console.log(response);
-                this.setState({ textInput: "" });
+                this.setState({ textInput: "", selectedImage: null });
                 this.props.pass.current.fetchContent();
+                Toast.success("Upload success");
             },
             (error) => {
                 this.setState({

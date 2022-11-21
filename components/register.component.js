@@ -59,7 +59,8 @@ export default class Register extends Component {
                 this.setState({
                     message: response.data.message,
                     successful: true
-                });
+                    
+                }, () => Toast.success("Registration successful"));
             },
             error => {
                 console.log("register error", error);

@@ -61,14 +61,14 @@ export default class Login extends Component {
                 this.props.route.params.setLoginState(true);
             },
             (error) => {
-                console.log("Error again");
+                
                 const resMessage =
                     (error.response &&
                         error.response.data &&
                         error.response.data.message) ||
                     error.message ||
                     error.toString();
-
+                    Toast.error(resMessage);
                 this.setState({
                     successful: false,
                     message: resMessage
